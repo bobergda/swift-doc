@@ -85,9 +85,16 @@ Routing to **decyzja biznesowa**, nie techniczna.
 - Instant: TIPS / RT1  
 Settlement zawsze kończy się w TARGET2.
 
-### 5.2 Dania (DKK)
-- RTGS: KRONOS2  
-- Instant: Straksclearing
+5.2 Dania (DKK)
+- **RTGS (platforma):** T2 (wspólna platforma Eurosystemu)
+- **Waluta:** DKK
+- **Final settlement:** rachunki w Danmarks Nationalbank
+- **Status KRONOS2:** wycofany (decommissioned)
+- **Instant payments:** krajowy clearing → settlement DKK w RTGS (platforma T2)
+
+> Dania zrezygnowała z krajowej platformy RTGS (KRONOS2) na rzecz **wspólnej platformy T2**.
+> Zmiana ma charakter **techniczny**, nie walutowy – pieniądz DKK pozostaje
+> w pełni pod kontrolą Danmarks Nationalbank.
 
 ### 5.3 Szwecja (SEK)
 - RTGS: RIX  
