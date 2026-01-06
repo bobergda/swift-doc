@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>TIPS vs RT1 – porównanie rozszerzone (druk)</title>
+<style>
+@page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color:#111; line-height:1.45; }
+h1 { font-size: 20px; margin: 0 0 8px 0; }
+h2 { font-size: 15px; margin: 16px 0 6px 0; border-bottom: 1px solid #bbb; padding-bottom: 2px; }
+h3 { font-size: 13px; margin: 12px 0 4px 0; }
+p { font-size: 11.5px; margin: 4px 0; }
+ul { margin: 6px 0 8px 18px; padding: 0; font-size: 11.5px; }
+li { margin: 3px 0; }
+table { width:100%; border-collapse: collapse; font-size:11.5px; margin: 8px 0 10px 0; }
+th, td { border:1px solid #bbb; padding:6px 7px; vertical-align: top; }
+th { background:#f0f0f0; font-weight:600; }
+.box { border:1px solid #bbb; padding:8px 10px; margin:8px 0; }
+.note { font-size: 10.5px; color:#333; }
+.footer { position: fixed; bottom: 8mm; left:0; right:0; text-align:center; font-size:9.5px; color:#555; }
+.pagebreak { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<h1>TIPS vs RT1 – porównanie rozszerzone (perspektywa banku)</h1>
+<p class="note">
+Dokument referencyjny: architektura, finality, płynność, ryzyko, routing, operacje.
+</p>
+
+<h2>1. Kontekst: po co w ogóle są dwa systemy instant w EUR</h2>
+<p>
+SEPA Instant Credit Transfer (SCT Inst) wymusił możliwość rozliczeń natychmiastowych 24/7.
+Europa zdecydowała się na dwa równoległe rozwiązania:
+</p>
+<ul>
+  <li><b>TIPS</b> – rozwiązanie banku centralnego (ECB), maksymalna finalność.</li>
+  <li><b>RT1</b> – rozwiązanie rynkowe (EBA Clearing), szybkie wdrożenie i elastyczność.</li>
+</ul>
+<p>
+Dla klienta końcowego oba systemy wyglądają identycznie. Dla banku – różnice są fundamentalne.
+</p>
+
+<h2>2. Definicje i pozycjonowanie</h2>
+<div class="box">
+<p><b>TIPS (TARGET Instant Payment Settlement)</b><br>
+System instant prowadzony przez ECB. Settlement odbywa się bezpośrednio na rachunkach
+banków w banku centralnym (central bank money).</p>
+</div>
+<div class="box">
+<p><b>RT1</b><br>
+System instant prowadzony przez EBA Clearing. Działa w modelu clearingowym,
+z prefundingiem i rozliczeniem końcowym w TARGET2.</p>
+</div>
+
+<h2>3. Architektura rozrachunku</h2>
+<table>
+<tr>
+  <th>Element</th><th>TIPS</th><th>RT1</th>
+</tr>
+<tr>
+  <td>Właściciel / operator</td><td>ECB</td><td>EBA Clearing</td>
+</tr>
+<tr>
+  <td>Typ pieniądza</td><td>Central bank money</td><td>Model izby rozliczeniowej</td>
+</tr>
+<tr>
+  <td>Settlement</td><td>Bezpośredni, finalny</td><td>Finalny, ale pośredni</td>
+</tr>
+<tr>
+  <td>Zależność od TARGET2</td><td>Ograniczona</td><td>Istotna (end-of-cycle)</td>
+</tr>
+</table>
+
+<h2>4. Finality i ryzyko prawne</h2>
+<p>
+<b>Finality</b> oznacza prawnie nieodwracalny rozrachunek.
+</p>
+<ul>
+  <li>W <b>TIPS</b> finality następuje w momencie zapisu na rachunku w ECB.</li>
+  <li>W <b>RT1</b> finality jest gwarantowana przez reguły izby,
+      a settlement końcowy domyka się w TARGET2.</li>
+</ul>
+<p>
+Z punktu widzenia regulatora i audytu, TIPS jest postrzegany jako
+najczystsza forma finality.
+</p>
+
+<h2>5. Płynność i prefunding (core koszt)</h2>
+<table>
+<tr>
+  <th>Obszar</th><th>TIPS</th><th>RT1</th>
+</tr>
+<tr>
+  <td>Gdzie leży prefunding</td><td>ECB</td><td>EBA Clearing</td>
+</tr>
+<tr>
+  <td>Dostępność środków</td><td>Zamrożone 24/7</td><td>Zamrożone 24/7</td>
+</tr>
+<tr>
+  <td>Postrzeganie treasury</td><td>Jak RTGS buffer</td><td>Jak clearing buffer</td>
+</tr>
+</table>
+<p>
+Dla obu systemów głównym kosztem nie są opłaty transakcyjne,
+lecz koszt utrzymywanej płynności (FTP).
+</p>
+
+<h2>6. Operacje 24/7 i IT</h2>
+<ul>
+  <li>Brak cut-off – system działa ciągle.</li>
+  <li>Brak kolejki – przy braku prefundingu następuje <b>reject</b>.</li>
+  <li>Wysokie wymagania SLA, monitoring i incident management.</li>
+</ul>
+<p>
+Z punktu widzenia IT różnice są mniejsze niż z punktu widzenia treasury.
+</p>
+
+<h2>7. Routing – decyzje praktyczne</h2>
+<div class="box">
+<p><b>Preferuj TIPS, gdy:</b></p>
+<ul>
+  <li>bank stawia na maksymalną finality i zgodność regulacyjną</li>
+  <li>istotna jest reputacja i relacja z ECB</li>
+</ul>
+</div>
+<div class="box">
+<p><b>Preferuj RT1, gdy:</b></p>
+<ul>
+  <li>bank jest silnie zintegrowany z EBA (STEP2 / EURO1)</li>
+  <li>liczy się szybkość wdrożenia i elastyczność operacyjna</li>
+</ul>
+</div>
+
+<h2>8. Najczęstsze błędy interpretacyjne</h2>
+<ul>
+  <li>„RT1 to to samo co TIPS” – nie, inny model prawny i rozrachunkowy.</li>
+  <li>„Instant = tanio” – koszt robi płynność i 24/7 ops.</li>
+  <li>„Prefunding to detal techniczny” – to kluczowa decyzja treasury.</li>
+</ul>
+
+<h2>9. Podsumowanie</h2>
+<p>
+TIPS i RT1 realizują ten sam cel biznesowy (instant payments),
+ale robią to w dwóch różnych filozofiach:
+</p>
+<ul>
+  <li><b>TIPS</b> – central bank first, maksymalna finalność.</li>
+  <li><b>RT1</b> – rynkowy clearing, większa elastyczność.</li>
+</ul>
+
+<div class="footer">TIPS vs RT1 • wersja rozszerzona • druk A4</div>
+
+</body>
+</html>

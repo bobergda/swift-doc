@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payments Bible v1 – druk</title>
+  <style>
+    @page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #111;
+      line-height: 1.55;
+      font-size: 11.5px;
+    }
+    h1 { font-size: 20px; margin: 0 0 6px 0; }
+    h2 { font-size: 15px; margin: 18px 0 6px 0; border-bottom: 1px solid #bbb; padding-bottom: 2px; }
+    h3 { font-size: 13px; margin: 12px 0 4px 0; }
+    p { margin: 4px 0; }
+    ul { margin: 6px 0 8px 18px; padding: 0; }
+    li { margin: 3px 0; }
+    .meta { font-size: 10.5px; color: #333; margin-bottom: 10px; }
+    .toc { border: 1px solid #bbb; padding: 10px 12px; margin: 10px 0 16px 0; }
+    .toc h2 { margin-top: 0; border: none; padding: 0; }
+    .toc ol { margin: 6px 0 0 18px; }
+    .toc a { color: #111; text-decoration: none; }
+    .footer {
+      position: fixed;
+      bottom: 8mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 9.5px;
+      color: #555;
+    }
+    @media print {
+      a { color: #111; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="meta"><b>Payments Bible v1</b> • wersja do druku • A4 • perspektywa banku/treasury/IT</div>
+  <div class="toc">
+    <h2>Spis treści</h2>
+    <ol><li><a href="#1-fundamenty-system-w-p-atniczych">1. Fundamenty systemów płatniczych</a></li><li><a href="#2-clearing-netto-brutto">2. Clearing, netto, brutto</a></li><li><a href="#3-p-ynno-czas-ryzyko">3. Płynność, czas, ryzyko</a></li><li><a href="#4-routing-logika-decyzyjna">4. Routing – logika decyzyjna</a></li><li><a href="#5-systemy-p-atnicze-przegl-d-globalny">5. Systemy płatnicze – przegląd globalny</a></li><li><a href="#6-euro-architektura-ecb-eba">6. EURO – architektura ECB / EBA</a></li><li><a href="#7-cls-fx-settlement-must-have">7. CLS – FX settlement (must-have)</a></li><li><a href="#8-cross-border-correspondent-banking">8. Cross-border / correspondent banking</a></li><li><a href="#9-swift-mt-vs-iso-20022">9. SWIFT – MT vs ISO 20022</a></li><li><a href="#10-incident-crisis-flows">10. Incident & crisis flows</a></li><li><a href="#11-s-ownik-poj-referencja">11. Słownik pojęć (referencja)</a></li><li><a href="#12-podsumowanie">12. Podsumowanie</a></li></ol>
+  </div>
+  <h1>PAYMENTS – SŁOWNIK + ROUTING (Payments Bible v1)</h1>
+<p><b>Wersja docelowa (10–12 stron A4)</b> • perspektywa banku / treasury / IT payments</p>
+<h2 id="1-fundamenty-system-w-p-atniczych">1. Fundamenty systemów płatniczych</h2>
+<h3 id="1-1-rtgs-real-time-gross-settlement">1.1 RTGS (Real-Time Gross Settlement)</h3>
+<p>RTGS to system rozrachunku <b>brutto w czasie rzeczywistym</b>, w którym:</p>
+<ul>
+<li>każda płatność jest rozliczana osobno,</li>
+<li>w pełnej kwocie,</li>
+<li>bezpośrednio na rachunkach banków w banku centralnym.</li>
+</ul>
+<p>RTGS = <b>ostateczny ruch pieniądza</b> (final settlement).</p>
+<h3 id="1-2-payment-vs-settlement">1.2 Payment vs Settlement</h3>
+<p><b>Payment</b> to proces operacyjny: zlecenie → komunikaty → kontrole → routing → settlement.</p>
+<p><b>Settlement</b> to fakt prawny: nieodwracalna zmiana sald w banku centralnym.</p>
+<h3 id="1-3-target2-t2">1.3 TARGET2 / T2</h3>
+<p>TARGET2 (T2) to <b>RTGS dla euro</b> prowadzony przez bank centralny strefy euro (ECB).</p>
+<p>Jeśli euro <b>nie przeszło przez T2</b>, to <b>nie było settlementu</b> (niezależnie od komunikatów/clearingu).</p>
+<h2 id="2-clearing-netto-brutto">2. Clearing, netto, brutto</h2>
+<h3 id="2-1-clearing">2.1 Clearing</h3>
+<p>Clearing to proces <b>liczenia zobowiązań</b>, a nie przesyłania pieniędzy:</p>
+<ul>
+<li>zbiera transakcje,</li>
+<li>liczy pozycje netto,</li>
+<li>przygotowuje instrukcję settlementu do RTGS.</li>
+</ul>
+<h3 id="2-2-netto">2.2 Netto</h3>
+<p>Rozliczana jest <b>różnica zobowiązań</b>.</p>
+<p>+ niska potrzeba płynności</p>
+<p>– ryzyko kumuluje się do momentu settlementu</p>
+<h3 id="2-3-brutto">2.3 Brutto</h3>
+<p>Każda płatność osobno, pełna kwota.</p>
+<p>+ minimalne ryzyko</p>
+<p>– wysoki koszt płynności</p>
+<h3 id="2-4-zasada-uniwersalna">2.4 Zasada uniwersalna</h3>
+<p><b>Clearing liczy. RTGS rozlicza.</b></p>
+<h2 id="3-p-ynno-czas-ryzyko">3. Płynność, czas, ryzyko</h2>
+<h3 id="3-1-p-ynno-liquidity">3.1 Płynność (Liquidity)</h3>
+<p>Zdolność banku do zapłaty <b>tu i teraz</b>, a nie „w bilansie”.</p>
+<h3 id="3-2-intraday-liquidity">3.2 Intraday liquidity</h3>
+<p>Saldo na początku dnia + spodziewane wpływy – zobowiązania wychodzące.</p>
+<p>Opóźnienia wpływów zwiększają bufory i zmieniają routing.</p>
+<h3 id="3-3-liquidity-event">3.3 Liquidity event</h3>
+<p>Sytuacja, w której bank <b>nie może zapłacić na czas</b>, mimo że „ma pieniądze”.</p>
+<h3 id="3-4-cut-off">3.4 Cut-off</h3>
+<p>Godzina graniczna. Po cut-off: settlement jutro, overnight cost, FX risk, reklamacje.</p>
+<h3 id="3-5-fx-risk">3.5 FX risk</h3>
+<p>Ryzyko kursowe przy opóźnionym settlement (zwłaszcza cross-currency).</p>
+<h3 id="3-6-ftp-fund-transfer-pricing">3.6 FTP (Fund Transfer Pricing)</h3>
+<p>Wewnętrzna cena pieniądza w banku: koszt trzymania bufora płynności.</p>
+<h2 id="4-routing-logika-decyzyjna">4. Routing – logika decyzyjna</h2>
+<p>Routing to <b>decyzja biznesowa</b>, nie techniczna.</p>
+<h3 id="4-1-kolejno-decyzji">4.1 Kolejność decyzji</h3>
+<p>1) Waluta</p>
+<p>2) Wymóg instant</p>
+<p>3) Deadline / cut-off</p>
+<p>4) Kwota i ryzyko</p>
+<p>5) Dostępna płynność (gdzie i kiedy)</p>
+<h3 id="4-2-skutki-braku-p-ynno-ci">4.2 Skutki braku płynności</h3>
+<ul>
+<li>RTGS → kolejka</li>
+<li>Instant → reject</li>
+<li>Clearing → ryzyko przesunięte w czasie</li>
+</ul>
+<h2 id="5-systemy-p-atnicze-przegl-d-globalny">5. Systemy płatnicze – przegląd globalny</h2>
+<h3 id="5-1-strefa-eur">5.1 Strefa EUR</h3>
+<ul>
+<li>RTGS: TARGET2</li>
+<li>Clearing: STEP2 / EURO1</li>
+<li>Instant: TIPS / RT1</li>
+</ul>
+<p>Settlement zawsze kończy się w TARGET2.</p>
+<h3 id="5-2-dania-dkk">5.2 Dania (DKK)</h3>
+<ul>
+<li>RTGS: KRONOS2</li>
+<li>Instant: Straksclearing</li>
+</ul>
+<h3 id="5-3-szwecja-sek">5.3 Szwecja (SEK)</h3>
+<ul>
+<li>RTGS: RIX</li>
+<li>Clearing: Bankgirot</li>
+<li>Instant: Swish</li>
+</ul>
+<h3 id="5-4-finlandia-eur">5.4 Finlandia (EUR)</h3>
+<p>Jak strefa EUR: TARGET2, EBA clearing, TIPS / RT1.</p>
+<h3 id="5-5-polska-pln">5.5 Polska (PLN)</h3>
+<ul>
+<li>RTGS: SORBNET2</li>
+<li>Clearing: ELIXIR (KIR)</li>
+<li>Instant: Express Elixir</li>
+<li>Overlay: BLIK</li>
+</ul>
+<h3 id="5-6-norwegia-nok">5.6 Norwegia (NOK)</h3>
+<ul>
+<li>RTGS: NBO</li>
+<li>Clearing: NICS</li>
+<li>Instant: NICS Instant</li>
+</ul>
+<h3 id="5-7-usa-usd">5.7 USA (USD)</h3>
+<ul>
+<li>RTGS: Fedwire</li>
+<li>Clearing: CHIPS</li>
+<li>Instant: FedNow / RTP</li>
+</ul>
+<h2 id="6-euro-architektura-ecb-eba">6. EURO – architektura ECB / EBA</h2>
+<h3 id="6-1-ecb">6.1 ECB</h3>
+<ul>
+<li>prowadzi TARGET2,</li>
+<li>prowadzi TIPS,</li>
+<li>odpowiada za final settlement EUR.</li>
+</ul>
+<h3 id="6-2-eba-clearing">6.2 EBA Clearing</h3>
+<ul>
+<li>STEP2 (retail),</li>
+<li>EURO1 (high value),</li>
+<li>RT1 (instant).</li>
+</ul>
+<p>Settlement EBA zawsze kończy się w TARGET2.</p>
+<p>Zasada: <b>EBA liczy. ECB rozlicza.</b></p>
+<h2 id="7-cls-fx-settlement-must-have">7. CLS – FX settlement (must-have)</h2>
+<h3 id="7-1-problem-bez-cls">7.1 Problem bez CLS</h3>
+<p>Bez CLS może się rozliczyć jedna noga FX, a druga nie → <b>Herstatt risk</b>.</p>
+<h3 id="7-2-cls-i-pvp">7.2 CLS i PvP</h3>
+<p>CLS realizuje <b>PvP (payment-versus-payment)</b>:</p>
+<ul>
+<li>albo obie nogi FX są rozliczone,</li>
+<li>albo żadna.</li>
+</ul>
+<h3 id="7-3-waluty-cls-non-cls">7.3 Waluty CLS / non-CLS</h3>
+<p>Nie wszystkie waluty są w CLS. Non-CLS = wyższe bufory, wyższe ryzyko.</p>
+<h2 id="8-cross-border-correspondent-banking">8. Cross-border / correspondent banking</h2>
+<h3 id="8-1-co-to-jest">8.1 Co to jest</h3>
+<p>Cross-border non-EUR opiera się na bankach pośredniczących i rachunkach nostro/vostro.</p>
+<h3 id="8-2-gdzie-stoi-pieni-dz">8.2 Gdzie „stoi pieniądz”</h3>
+<p>Najczęściej u korespondenta (compliance, cut-off, time zone).</p>
+<h3 id="8-3-eur-vs-non-eur">8.3 EUR vs non-EUR</h3>
+<ul>
+<li>EUR (SEPA): bardziej centralna infrastruktura</li>
+<li>non-EUR: więcej zależności bilateralnych</li>
+</ul>
+<h2 id="9-swift-mt-vs-iso-20022">9. SWIFT – MT vs ISO 20022</h2>
+<h3 id="9-1-swift-komunikacja">9.1 SWIFT = komunikacja</h3>
+<p>SWIFT nie przesyła pieniędzy, tylko instrukcje.</p>
+<h3 id="9-2-mt-legacy">9.2 MT (legacy)</h3>
+<p>Sztywne pola, mniej danych, więcej ręcznej interpretacji.</p>
+<h3 id="9-3-iso-20022">9.3 ISO 20022</h3>
+<p>Strukturalne dane, bogatszy kontekst, lepsze compliance i STP.</p>
+<p>ISO nie „przyspiesza settlementu” – zmniejsza błędy i ręczną obsługę.</p>
+<h2 id="10-incident-crisis-flows">10. Incident & crisis flows</h2>
+<h3 id="10-1-it-incident-vs-business-incident">10.1 IT incident vs business incident</h3>
+<ul>
+<li>IT incident: system nie działa</li>
+<li>business incident: <b>pieniądz nie idzie</b></li>
+</ul>
+<h3 id="10-2-typowe-kryzysy">10.2 Typowe kryzysy</h3>
+<p>RTGS down, clearing delay, SWIFT outage, liquidity shortfall.</p>
+<h3 id="10-3-decyzje-kryzysowe">10.3 Decyzje kryzysowe</h3>
+<p>hold / reroute / reject / manual settlement — IT dostarcza sygnały i narzędzia.</p>
+<h2 id="11-s-ownik-poj-referencja">11. Słownik pojęć (referencja)</h2>
+<p>Nostro, Vostro, Prefunding, Batch, Queue, Finality, Rerouting, STP, PvP, FTP.</p>
+<h2 id="12-podsumowanie">12. Podsumowanie</h2>
+<p>Payments to nie systemy. Payments to <b>płynność + czas + ryzyko</b>.</p>
+  <div class="footer">Payments Bible v1 • druk A4</div>
+</body>
+</html>
