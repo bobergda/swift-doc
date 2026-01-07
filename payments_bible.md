@@ -1,4 +1,4 @@
-# PAYMENTS - SLOWNIK + ROUTING (Payments Bible v1)
+# PAYMENTS - SLOWNIK + ROUTING (Payments Bible)
 Perspektywa: bank / treasury / IT payments
 Cel: wspolny jezyk do rozmow o platnosciach (biznes - treasury - IT - operacje), bez mylenia "komunikacji" z "pieniadzem".
 
